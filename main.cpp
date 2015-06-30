@@ -1,8 +1,7 @@
 /* 
  * File:   main.cpp
- * Author: chachalaca
- *
- * Created on 21. červen 2014, 16:30
+ * Author: f.blach@owi.cz
+ * 
  */
 
 #include <iostream>
