@@ -1,7 +1,7 @@
 /* 
  * File:   main.cpp
  * Author: f.blach@owi.cz
- * 
+ *
  */
 
 #include <iostream>
@@ -21,18 +21,18 @@ int main(int argc, char **argv) {
 
     switch(argc) {
         case 1:
-            cout << "encode [name of file to be encoded] [encoded file]" << endl;
-            cout << "decode [name of file to be decoded] [name of decoded file]"<< endl;
+            cout << "encode [name of file to be encoded] [name of encoded output file]" << endl;
+            cout << "decode [name of file to be decoded] [name of decoded output file]"<< endl;
             exit(0);
         case 2:
             cout << "missing source filename"<<endl;
-            cout << "encode [name of file to be encoded] [encoded file]" << endl;
-            cout << "decode [name of file to be decoded] [name of decoded file]"<< endl;
+            cout << "encode [name of file to be encoded] [name of encoded output file]" << endl;
+            cout << "decode [name of file to be decoded] [name of decoded output file]"<< endl;
             exit(1);
         case 3:
             cout << "missing destination filename"<<endl;
-            cout << "encode [name of file to be encoded] [encoded file]" << endl;
-            cout << "decode [name of file to be decoded] [name of decoded file]"<< endl;
+            cout << "encode [name of file to be encoded] [name of encoded output file]" << endl;
+            cout << "decode [name of file to be decoded] [name of decoded output file]"<< endl;
             exit(1);
 
     }
@@ -187,8 +187,8 @@ int main(int argc, char **argv) {
     }
 
     else {
-        cout << "encode [name of file to be encoded] [encoded file]" << endl;
-        cout << "decode [name of file to be decoded] [name of decoded file]"<< endl;
+        cout << "encode [name of file to be encoded] [name of encoded output file]" << endl;
+        cout << "decode [name of file to be decoded] [name of decoded output file]"<< endl;
     }
 
 
