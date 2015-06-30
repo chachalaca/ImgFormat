@@ -1,14 +1,14 @@
 /* 
  * File:   Huffman.h
- * Author: chachalaca
+ * Author: f.blach@owi.cz
  *
- * Created on 21. červen 2014, 16:30
  */
 
 #ifndef HTREE_H
 #define    HTREE_H
 
 #include <vector>
+#include <map>
 #include <algorithm>
 #include <iostream>
 #include "HNode.h"
@@ -20,6 +20,8 @@ public:
 
     Huffman(const Huffman<T> &orig);
 
+    Huffman(std::map<T, int> alphabetMap);
+
     Huffman<T> &operator=(Huffman<T> n);
 
     virtual ~Huffman();
@@ -28,12 +30,17 @@ public:
 
     std::vector<T> decode(std::vector<bool> *code) const;
 
+    std::map<T, int> extractAlphabet();
+
+
+
 private:
     std::vector<HNode<T>> createAlphabet(std::vector<T> *text) const;
 
     HNode<T> buildTree();
 
     std::vector<HNode<T> > alphabet;
+
     HNode<T> root;
 
 };
@@ -48,6 +55,28 @@ template<typename T>
 Huffman<T>::Huffman(const Huffman<T> &orig) {
     this->alphabet = orig.alphabet;
     this->root = orig.root;
+}
+
+template<typename T>
+Huffman<T>::Huffman(std::map<T, int> alphabetMap) {
+    std::vector<HNode<T> > alphabet;
+
+    typename std::map<T, int>::iterator mi;
+    mi = alphabetMap.begin();
+
+    while (mi != alphabetMap.end()) {
+        HNode<T> newNode;
+
+        newNode.setCount(mi->second);
+        newNode.setSymbol(mi->first);
+
+        alphabet.push_back(newNode);
+
+        mi++;
+    }
+
+    this->alphabet = alphabet;
+    this->root = this->buildTree();
 }
 
 template<typename T>
@@ -78,9 +107,10 @@ std::vector<HNode<T> > Huffman<T>::createAlphabet(std::vector<T> *text) const {
         }
         else {
             HNode<T> newNode;
+            newNode.setCount(1);
+            newNode.setSymbol(*ti);
             alphabet.push_back(newNode);
-            alphabet.back().setCount(1);
-            alphabet.back().setSymbol(*ti);
+
         }
         ti++;
     }
@@ -92,7 +122,6 @@ std::vector<HNode<T> > Huffman<T>::createAlphabet(std::vector<T> *text) const {
 template<typename T>
 HNode<T> Huffman<T>::buildTree() {
     std::vector<HNode<T> *> temp;
-
     typename std::vector<HNode<T> >::iterator ai = this->alphabet.begin();
     while (ai != this->alphabet.end()) {
         temp.push_back(&(*ai));
@@ -100,7 +129,12 @@ HNode<T> Huffman<T>::buildTree() {
     }
     typename std::vector<HNode<T> *>::iterator ti;
 
+
+    std::sort(temp.rbegin(), temp.rend(), HNodePointerSymbolComparator<T>());
+
+
     while (temp.size() > 1) {
+
         std::sort(temp.rbegin(), temp.rend(), HNodePointerCountComparator<T>());
 
         ti = temp.end();
@@ -154,6 +188,19 @@ std::vector<T> Huffman<T>::decode(std::vector<bool> *code) const {
         text.push_back(this->root.decodeSymbol(code));
     }
     return text;
+}
+
+template<typename T>
+std::map<T, int> Huffman<T>::extractAlphabet() {
+    std::map<T, int> alphabetMap;
+
+    typename std::vector<HNode<T> >::iterator ai = this->alphabet.begin();
+    while (ai != this->alphabet.end()) {
+        alphabetMap[ai->getSymbol()] = ai->getCount();
+        ai++;
+    }
+
+    return alphabetMap;
 }
 
 

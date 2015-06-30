@@ -1,8 +1,7 @@
 /* 
  * File:   HNode.h
- * Author: chachalaca
+ * Author: f.blach@owi.cz
  *
- * Created on 21. červen 2014, 16:44
  */
 
 #ifndef HNODE_H
@@ -11,6 +10,8 @@
 #include <vector>
 #include <iostream>
 #include <stddef.h>
+#include <string.h>
+
 #include <exception>
 #include <algorithm>
 
@@ -74,6 +75,13 @@ struct HNodePointerCountComparator {
     bool operator()(const HNode<T> *l, const HNode<T> *r) {
 //          std::cout<<"porovnani "<<(l)->count<<" "<<(r)->count<<std::endl;
         return l->getCount() < r->getCount();
+    }
+};
+
+template<typename T>
+struct HNodePointerSymbolComparator {
+    bool operator()(const HNode<T> *l, const HNode<T> *r) {
+        return strcmp((&l->getSymbol()), (&r->getSymbol())) < 0;
     }
 };
 
